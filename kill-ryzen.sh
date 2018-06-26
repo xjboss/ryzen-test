@@ -1,11 +1,11 @@
-#!/bin/bash
+ #!/bin/bash
 export LANG=C
 
-USE_RAMDISK=true
+USE_RAMDISK=false
 CLEAN_ON_EXIT=false
 NPROC=$1
 TPROC=$2
-
+HOME_DIR=$(pwd)
 [ -n "$NPROC" ] || NPROC=$(nproc)
 [ -n "$TPROC" ] || TPROC=1
 
@@ -41,11 +41,16 @@ if $USE_RAMDISK; then
   export TMPDIR="$PWD/tmpdir"
 fi
 
-echo "Download GCC sources"
-wget ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-7.1.0/gcc-7.1.0.tar.bz2 || exit 1
+if [ ! -f "$HOME_DIR/gcc-7.1.0.tar.bz2" ]; then
+  echo "Download GCC sources"
+  wget ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-7.1.0/gcc-7.1.0.tar.bz2 -O $HOME_DIR/gcc-7.1.0.tar.bz2 || exit 1
+else
+  echo "GCC sources exists, why download it again?"
+fi
+
 
 echo "Extract GCC sources"
-tar xf gcc-7.1.0.tar.bz2 || exit 1
+tar xf $HOME_DIR/gcc-7.1.0.tar.bz2 || exit 1
 
 echo "Download prerequisites"
 (cd gcc-7.1.0/ && ./contrib/download_prerequisites)

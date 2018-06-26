@@ -1,5 +1,6 @@
-# ryzen-test
+# ryzen-test modify version
 Script to reproduce randomly crashing processes under load on AMD Ryzen processors on _Ubuntu 17.04_(!).
+Default disable ramdisk and only download once gcc 7.1.0 source code.
 
 # Try it
 Run
